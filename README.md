@@ -1,5 +1,5 @@
 # Stringer
-A tale of two strings.
+A tale of two strings. This is a Python draft of a string manipulation puzzle game.
 ## Goal of the game
 Given a staring word (string), final word, and operations with costs, can you find the cheapest path from the starting word to the target?
 ## Operations

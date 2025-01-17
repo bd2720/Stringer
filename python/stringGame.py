@@ -1,36 +1,30 @@
 abc = "abcdefghijklmnopqrstuvwxyz"
 
 # reverse a string
-def rev(s, args):
+def rev(s):
   return s[::-1]
 
 # add character at index i
-def charAdd (s, args):
-    i = args[0]
+def charAdd (s, i):
     i -= 1
     return s[:i] + s[i] + s[i:]
 
 # remove character at index i
-def charRem(s, args):
-    i = args[0]
+def charRem(s, i):
     i -= 1
     if i == -1:
         return s[:-1]
     return s[:i] + s[i+1:]
 
 # inc/dec a char at index i by amount x (wraps)
-def charChange(s, args):
-    i = args[0]
-    x = args[1]
+def charChange(s, i, x):
     i -= 1
     letterVal = abc.index(s[i])
     letterVal = (letterVal + x) % 26
     return s[:i] + abc[letterVal] + s[i+1:]
 
 # swap chars in a string
-def swp(s, args):
-    i = args[0]
-    j = args[1]
+def swp(s, i, j):
     i -= 1
     j -= 1
     if i == j:
@@ -40,8 +34,7 @@ def swp(s, args):
     return s[:i] + s[j] + s[i+1:j] + s[i] + s[j+1:]
 
 # shift string right by amount x (wraps)
-def shr(s, args):
-    x = args[0]
+def shr(s, x):
     x = x % len(s)
     return s[-x:] + s[:-x]
 
@@ -67,11 +60,19 @@ gamePairs = [
     ('pots', 'stop'),
     ('pots', 'spot'),
     ('plains', 'snail'),
-    ('sever', 'verse')
+    ('sever', 'verse'),
+    ('earth', 'hearth'),
+    ('earth', 'heart'),
+    ('stone', 'notes'),
+    ('replays', 'parsley'),
+    ('replay', 'player'),
+    ('ranking', 'barking'),
+    ('despise', 'spiders'),
+    ('listen', 'utensil')
 ]
 
 ## GAME LOOP ##
-gameID = 2
+gameID = 11
 currPair = gamePairs[gameID]
 (wordInitial, wordFinal) = currPair
 wordCurr = wordInitial
@@ -79,17 +80,21 @@ cost = 0
 wordSeq = [wordInitial]
 print("Target word: " + wordFinal)
 while wordFinal != wordCurr:
+    print()
     print("Cost: " + str(cost))
     print("Current word: " + wordCurr)
     actionInput = input("Enter an action: ")
+    if not actionInput: continue
     if actionInput == "exit": exit()
     actionInput = actionInput.split(" ")
     chosenAction = actionInput[0]
     # arguments
     actionArgs = [int(a) for a in actionInput[1:]]
-    wordCurr = actionsDict[chosenAction][0](wordCurr, actionArgs)
+    if chosenAction not in actionsDict: continue
+    wordCurr = actionsDict[chosenAction][0](wordCurr, *actionArgs)
     cost += actionsDict[chosenAction][1]
     wordSeq.append(wordCurr)
 
+print()
 print("You win! Cost: " + str(cost))
 print(stringSeq(wordSeq))
